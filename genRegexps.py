@@ -14,7 +14,6 @@
 #    https://www.gnu.org/copyleft/gpl.txt
 
 import re
-from permutations import permutations
 
 # Function decorator to mimic static variable behavior
 # Ref: http://stackoverflow.com/questions/279561/what-is-the-python-equivalent-of-static-variables-inside-a-function
@@ -31,6 +30,23 @@ def marker(reset=False):
     marker.counter = 1
   else:
     marker.counter += 1
+
+# Generates permutations of a list
+def permutations(elts):
+  """Assumes elts is a list
+     Returns a list of lists with all orderings of elts."""
+  if len(elts) <= 1:
+    return [ elts[:] ]
+  perms = []
+  for i in range(len(elts)):
+    e = elts[i]
+    ec = elts[:]
+    ec.remove(e)
+    p = permutations(ec)
+    for m in p:
+      m.insert(0,e)
+      perms.append(m)
+  return perms
 
 # TODO: Allow # in opts strings
 # TODO: Allow more than one # in top-level string
